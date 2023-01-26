@@ -25,7 +25,7 @@ const verifyItenExists = (request: Request, response: Response, next: NextFuncti
     const { List } = request
     const { itemName } = request.params
 
-    const valid: boolean = List.data.some(iten => itemName == iten.name)
+    const valid: boolean = List.data.some(item => itemName == item.name)
 
     if (!valid) {
         return response.status(400).json({ message: `Item with name ${itemName} does not exist` })
@@ -35,12 +35,12 @@ const verifyItenExists = (request: Request, response: Response, next: NextFuncti
 
 }
 
-const validateKeysData = (request: Request<any, any,iBody>, response: Response, next: NextFunction): Response | void => {
+const validateKeysData = (request: Request<any, any, iBody>, response: Response, next: NextFunction): Response | void => {
 
     const { body } = request
 
     const requiredKeys: string[] = ["listName", "data"]
-    const requiredKeysIten: string[] = ["name", "quantity"]
+    const requiredKeysItem: string[] = ["name", "quantity"]
 
     if (typeof body.listName == "number") {
         return response.status(400).json({ mensage: `Name not Valid : ${body.listName}` })
@@ -53,16 +53,31 @@ const validateKeysData = (request: Request<any, any,iBody>, response: Response, 
             return response.status(400).json({ mensage: `Requered Keys Are : ${requiredKeys}` })
         }
     }
-    body.data.map(iten => {
-        for (const key in iten) {
-            if (!requiredKeysIten.includes(key)) {
-                return response.status(400).json({ mensage: `Requered Keys Are : ${requiredKeys}` })
+
+    // body.data.map((item) => {
+    //     for (const key in item) {
+    //         if (!requiredKeysItem.includes(key)) {
+    //              return response.status(400).json({ mensage: `Requered Keys Are : ${requiredKeys}` })
+    //         }
+    //         if (!item.hasOwnProperty("name") || !item.hasOwnProperty("quantity")) {
+    //              return response.status(400).json({ mensage: `Requered Keys Are : ${requiredKeys}` })
+    //         }
+    //     }
+    // })
+
+    body.data.map((item) => {
+        for (const key in item) {
+            if (!requiredKeysItem.includes(key)) {
+                return response.status(400).json({ mensage:`Is not Valid Keys Are : ${key}` })
             }
-            if (!iten.hasOwnProperty("name") || !iten.hasOwnProperty("quantity")) {
+        }
+        for (const key in item) {
+            if (!item.hasOwnProperty("name") || !item.hasOwnProperty("quantity")) {
                 return response.status(400).json({ mensage: `Requered Keys Are : ${requiredKeys}` })
             }
         }
     })
+
 
     return next()
 }

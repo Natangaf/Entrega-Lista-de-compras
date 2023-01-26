@@ -1,5 +1,4 @@
 import { Request, Response } from "express"
-import { iPurchaseList } from "./interfaces"
 import { listComps } from "./database"
 
 const getList = (request: Request, response: Response): Response => {
