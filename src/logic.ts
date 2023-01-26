@@ -51,7 +51,7 @@ const deleteIntem = (request: Request, response: Response): Response => {
             message: `item ${request.params.itemName} not found.`
         })
     }
-    return response.status(200).json({ message: "ok" })
+    return response.status(204).json()
 
 }
 
@@ -66,7 +66,7 @@ const deleteList = (request: Request, response: Response): Response => {
             message: `list ${request.params.itemName} not found.`
         })
     }
-    return response.status(200).json({ message: "ok" })
+    return response.status(204).json()
 
 }
 

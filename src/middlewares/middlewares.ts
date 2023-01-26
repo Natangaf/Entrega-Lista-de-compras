@@ -6,7 +6,7 @@ const verifyListExists = (request: Request, response: Response, next: NextFuncti
     const { purchaseListId } = request.params
 
     if (!+purchaseListId) {
-        return response.status(400).json({
+        return response.status(404).json({
             messege: `this list ${purchaseListId} is not valid `
         })
     }
@@ -14,7 +14,7 @@ const verifyListExists = (request: Request, response: Response, next: NextFuncti
         (iten) => iten.id == +purchaseListId)
 
     if (!list) {
-        return response.status(400).json({ messege: `List with id ${purchaseListId} does not exist` })
+        return response.status(404).json({ messege: `List with id ${purchaseListId} does not exist` })
     }
     request.List = list
 
@@ -28,7 +28,7 @@ const verifyItenExists = (request: Request, response: Response, next: NextFuncti
     const valid: boolean = List.data.some(item => itemName == item.name)
 
     if (!valid) {
-        return response.status(400).json({ message: `Item with name ${itemName} does not exist` })
+        return response.status(404).json({ message: `Item with name ${itemName} does not exist` })
     }
     return next()
 
@@ -85,10 +85,10 @@ const validateKeysData = (request: Request<any, any, iPathList>, response: Respo
         
         if (!requiredKeysItem.includes(key)) {
             console.log(key);
-            return response.status(400).json({ mensage: `Key Not Valid: ${key}` })
+            return response.status(404).json({ mensage: `Key Not Valid: ${key}` })
         }
         if (typeof body?.name !== "string" || typeof body?.quantity !== "string") {
-            return response.status(400).json({ mensage: `Value the Keys not valid : ${body?.name || body?.quantity}` })
+            return response.status(404).json({ mensage: `Value the Keys not valid : ${body?.name || body?.quantity}` })
         }
     }
     return next()
