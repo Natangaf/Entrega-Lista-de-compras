@@ -5,6 +5,7 @@ import { listComps } from "./database"
 const getList = (request: Request, response: Response): Response => {
     return response.status(200).json(listComps)
 }
+
 const getOneList = (request: Request, response: Response): Response => {
     const { purchaseListId } = request.params
 
@@ -43,6 +44,7 @@ const deleteInten = (request: Request, response: Response): Response => {
     return response.status(200).json({ message: "ok" })
 
 }
+
 const deleteList = (request: Request, response: Response): Response => {
 
     const removeIten = listComps.findIndex(list => list.listName == request.List.listName)
