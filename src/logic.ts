@@ -1,6 +1,5 @@
-import { request, Request, Response } from "express"
+import { Request, Response } from "express"
 import { listComps } from "./database"
-import { iItem } from "./interfaces"
 
 const getList = (request: Request, response: Response): Response => {
     return response.status(200).json(listComps)
@@ -32,11 +31,7 @@ const updateList = (request: Request, response: Response): Response => {
 
     const data = listComps[indexList].data.findIndex(itemList => itemList.name == request.params.itemName)
 
-    console.log(listComps[indexList].data[data]);
-
     listComps[indexList].data[data] = { ...listComps[indexList].data[data], ...request.body }
-
-    console.log(listComps[indexList].data[data]);
     
     return response.json(listComps[indexList])
 
