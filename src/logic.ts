@@ -5,10 +5,13 @@ import { listComps } from "./database"
 const getList = (request: Request, response: Response): Response => {
     return response.status(200).json(listComps)
 }
-const getIten = (request: Request, response: Response): Response => {
+const getOneList = (request: Request, response: Response): Response => {
+    const { purchaseListId } = request.params
 
-    if (+request.params.id) {
-        const dataFilter = listComps.filter(iten => iten.id == +request.params.id)
+    if (+purchaseListId) {
+        console.log(+purchaseListId);
+        
+        const dataFilter = listComps.filter(iten => iten.id == +purchaseListId)
         return response.status(200).json(dataFilter)
     } else {
         return response.status(400).json({ message: `Requered Keys Are : not valid Id` })
@@ -94,4 +97,4 @@ const deleteList = (request: Request, response: Response): Response => {
 
 }
 
-export { createdList, getList, getIten, deleteInten, deleteList }
+export { createdList, getList, getOneList, deleteInten, deleteList }
