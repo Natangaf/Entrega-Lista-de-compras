@@ -82,7 +82,9 @@ const validateKeysData = (request: Request<any, any, iPathList>, response: Respo
     const requiredKeysItem: string[] = ["name", "quantity"]
 
     for (const key in body) {
+        
         if (!requiredKeysItem.includes(key)) {
+            console.log(key);
             return response.status(400).json({ mensage: `Key Not Valid: ${key}` })
         }
         if (typeof body?.name !== "string" || typeof body?.quantity !== "string") {
