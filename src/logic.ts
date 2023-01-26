@@ -30,7 +30,7 @@ const deleteInten = (request: Request, response: Response): Response => {
 
     const removeIten = request.List.data.findIndex(iten => iten.name == request.params.itemName)
     if (removeIten >= 0) {
-        listComps.map(list => {
+        listComps.find(list => {
             if (list.id == request.List.id) {
                 list.data.splice(removeIten, 1)
             }
@@ -46,7 +46,6 @@ const deleteInten = (request: Request, response: Response): Response => {
 const deleteList = (request: Request, response: Response): Response => {
 
     const removeIten = listComps.findIndex(list => list.listName == request.List.listName)
-    console.log(removeIten);
 
     if (removeIten >= 0) {
         listComps.splice(removeIten, 1)
