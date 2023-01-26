@@ -1,14 +1,14 @@
 import express, { Application } from "express";
 import { createdList, getList, getOneList, deleteInten, deleteList } from "./logic";
-import { verifyListExists, verifyItenExists } from "./middlewares/middlewares"
+import { verifyListExists, verifyItenExists, validateKeysData } from "./middlewares/middlewares"
 const app: Application = express();
 app.use(express.json());
 
 
 app.get("/purchaseList", getList)
-app.post("/purchaseList", createdList)
 app.get("/purchaseList/:purchaseListId", verifyListExists, getOneList)
-app.patch("/purchaseList/:purchaseListId/:itemName", verifyListExists)
+app.post("/purchaseList", validateKeysData, createdList)
+app.patch("/purchaseList/:purchaseListId/:itemName", verifyListExists , verifyItenExists)
 app.delete("/purchaseList/:purchaseListId/:itemName", verifyListExists, verifyItenExists, deleteInten)
 app.delete("/purchaseList/:purchaseListId", verifyListExists, deleteList)
 
