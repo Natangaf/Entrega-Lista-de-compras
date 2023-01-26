@@ -15,3 +15,7 @@ export interface iBody {
     listName: string,
     data: iItem[],
 }
+export interface iPathList{
+    name: string,
+    quantity: string
+}

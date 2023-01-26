@@ -1,5 +1,6 @@
-import { Request, Response } from "express"
+import { request, Request, Response } from "express"
 import { listComps } from "./database"
+import { iItem } from "./interfaces"
 
 const getList = (request: Request, response: Response): Response => {
     return response.status(200).json(listComps)
@@ -9,7 +10,6 @@ const getOneList = (request: Request, response: Response): Response => {
     const { purchaseListId } = request.params
 
     if (+purchaseListId) {
-        console.log(+purchaseListId);
 
         const dataFilter = listComps.filter(iten => iten.id == +purchaseListId)
         return response.status(200).json(dataFilter)
@@ -26,7 +26,23 @@ const createdList = (request: Request, response: Response): Response => {
     return response.status(201).json(body);
 }
 
-const deleteInten = (request: Request, response: Response): Response => {
+const updateList = (request: Request, response: Response): Response => {
+
+    const indexList: number = listComps.findIndex(list => list.id == request.List.id)
+
+    const data = listComps[indexList].data.findIndex(itemList => itemList.name == request.params.itemName)
+
+    console.log(listComps[indexList].data[data]);
+
+    listComps[indexList].data[data] = { ...listComps[indexList].data[data], ...request.body }
+
+    console.log(listComps[indexList].data[data]);
+    
+    return response.json(listComps[indexList])
+
+}
+
+const deleteIntem = (request: Request, response: Response): Response => {
 
     const removeIten = request.List.data.findIndex(iten => iten.name == request.params.itemName)
     if (removeIten >= 0) {
@@ -59,4 +75,4 @@ const deleteList = (request: Request, response: Response): Response => {
 
 }
 
-export { createdList, getList, getOneList, deleteInten, deleteList }
+export { createdList, getList, getOneList, updateList, deleteIntem, deleteList }
