@@ -1,4 +1,4 @@
-import { iPurchaseList } from "../../interfaces";
+import { iIten, iPurchaseList } from "../../interfaces";
 
 declare global {
     namespace Express {

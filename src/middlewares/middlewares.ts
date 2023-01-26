@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express"
 import { listComps } from "../database";
-import { iPurchaseList } from './../interfaces';
+import { iPurchaseList, iBody } from './../interfaces';
 
 const verifyListExists = (request: Request, response: Response, next: NextFunction): Response | void => {
     const { purchaseListId } = request.params
@@ -32,28 +32,39 @@ const verifyItenExists = (request: Request, response: Response, next: NextFuncti
     }
     return next()
 
-    // const requiredKeysIten: string[] = ["name", "quantity"]
-    // const requestKeys = Object.keys(request.body)
-    // const valid = requestKeys.every(key => requiredKeysIten.includes(key))
-    // if (!valid) {
-    //     return response.status(400).json({ message: "Updatable fields are: name and quantity" })
-    // }
 
-    // const { quantity, name } = request.body
-
-
-    // if (+quantity || +name) {
-    //     return response.status(400).json({
-    //         messege: `The list name need to be a string `
-    //     })
-    // }
-
-
-
-
-    // return response.status(400).json({ messege: `teste` })
 }
 
+const validateKeysData = (request: Request<any, any,iBody>, response: Response, next: NextFunction): Response | void => {
 
+    const { body } = request
 
-export { verifyListExists, verifyItenExists }
+    const requiredKeys: string[] = ["listName", "data"]
+    const requiredKeysIten: string[] = ["name", "quantity"]
+
+    if (typeof body.listName == "number") {
+        return response.status(400).json({ mensage: `Name not Valid : ${body.listName}` })
+    }
+    for (const key in body) {
+        if (!requiredKeys.includes(key)) {
+            return response.status(400).json({ mensage: `Requered Keys Are : ${key}` })
+        }
+        if (!body.hasOwnProperty("listName") || !body.hasOwnProperty("data")) {
+            return response.status(400).json({ mensage: `Requered Keys Are : ${requiredKeys}` })
+        }
+    }
+    body.data.map(iten => {
+        for (const key in iten) {
+            if (!requiredKeysIten.includes(key)) {
+                return response.status(400).json({ mensage: `Requered Keys Are : ${requiredKeys}` })
+            }
+            if (!iten.hasOwnProperty("name") || !iten.hasOwnProperty("quantity")) {
+                return response.status(400).json({ mensage: `Requered Keys Are : ${requiredKeys}` })
+            }
+        }
+    })
+
+    return next()
+}
+
+export { verifyListExists, verifyItenExists, validateKeysData }
