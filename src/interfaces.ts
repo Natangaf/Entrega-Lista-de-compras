@@ -5,13 +5,17 @@ export type tIten = "name" | "quantity"
 export interface iPurchaseList {
     id: number,
     listName: string,
-    data: iIten[],
+    data: iItem[],
 }
-export interface iIten {
+export interface iItem {
     name: string,
     quantity: string
 }
 export interface iBody {
     listName: string,
-    data: iIten[],
+    data: iItem[],
+}
+export interface iPathList{
+    name: string,
+    quantity: string
 }
